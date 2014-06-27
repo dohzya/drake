@@ -1,3 +1,4 @@
+GET        /router              controllers.Drake.router
 GET        /                    controllers.Application.index
 GET        /:id                 controllers.Application.details(id: Long)
 GET        /assets/*file        controllers.Assets.at(path = "/public", file)
