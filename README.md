@@ -1,6 +1,16 @@
 Drake
 =====
 
+In short: the routing configuration is specified in the standard Play's `routes` file
+and is directly used by the Javascript part.
+
+Use
+---
+
+- The `routes` file is parsed (using standard [Play](playframework.com)'s routes file parser) and a JSON representation is served
+- The Javascript part uses this representation to configurate [Abyssa](https://github.com/AlexGalays/abyssa-js)
+- (profit?)
+
 License
 -------
 
