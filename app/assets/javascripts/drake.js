@@ -1,9 +1,10 @@
 define(['abyssa-with-deps', 'qajax'], function (abyssa, qajax) {
 
-  return function (targets) {
+  return function (targetsFactory) {
 
     qajax.getJSON("/router").then(function (routes) {
       var router = abyssa.Router();
+      var targets = targetsFactory(router);
       var processRules = function (rules, prefix) {
         rules.forEach(function (rule) {
           if (rule.type === 'route') {
@@ -16,7 +17,7 @@ define(['abyssa-with-deps', 'qajax'], function (abyssa, qajax) {
                 targets[rule.call.controller][rule.call.method].apply(null, arguments)
               }
             });
-            router.addState(rule.call.controller + '_' + rule.call.method, state);
+            router.addState(rule.call.controller + '.' + rule.call.method, state);
           } else /* rule.type === 'router' */ {
             processRules(rule.rules, prefix + rule.prefix);
           }
