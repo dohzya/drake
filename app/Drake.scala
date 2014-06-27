@@ -24,17 +24,22 @@ package play.router {
   object DrakeRouter {
     import play.router.RoutesCompiler._
 
-    def generate(file: File): JsArray = {
-      JsArray(compile(file) flatMap transformRule)
+    def generate(file: File, prefix: String = "/"): JsValue = {
+      Json.obj(
+        "type" -> "router",
+        "prefix" -> prefix,
+        "rules" -> JsArray(compile(file) map transformRule)
+      )
     }
 
-    def transformRule(rule: Rule): Option[JsObject] = rule match {
+    def transformRule(rule: Rule): JsValue = rule match {
       /*
       case class Route(verb: HttpVerb, path: PathPattern, call: HandlerCall, comments: List[Comment] = List()) extends Rule
       case class Include(prefix: String, router: String) extends Rule
       */
       case Route(verb, path, call, comments) =>
-        Some(Json.obj(
+        Json.obj(
+          "type" -> "route",
           "verb" -> verb.value,
           "path" -> JsArray(path.parts map {
             case DynamicPart(name, constraint, encode) =>
@@ -67,8 +72,11 @@ package play.router {
               })
             )
           }
-        ))
-      case Include(prefix, router) => None
+        )
+      case Include(prefix, router) =>
+        val fileName = """\.Routes$""".r.replaceAllIn(router, ".routes")
+        val file = new File(s"conf/$fileName")
+        generate(file, prefix)
     }
 
     def compile(file: File): Seq[Rule] = {
