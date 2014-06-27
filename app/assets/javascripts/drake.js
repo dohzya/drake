@@ -3,14 +3,16 @@ define(['abyssa-with-deps', 'qajax'], function (abyssa, qajax) {
   return function (targets) {
 
     qajax.getJSON("/assets/routes.json").then(function (routes) {
-      var router = {};
+      var router = abyssa.Router();
       routes.forEach(function (route) {
         var state = abyssa.State(route.pattern, function () {
-          targets[route.target.controller][route.target.action].apply(null, arguments)
+          if (!router.isFirstTransition()) {
+            targets[route.target.controller][route.target.action].apply(null, arguments)
+          }
         });
-        router[route.target.controller + '_' + route.target.action] = state;
+        router.addState(route.target.controller + '_' + route.target.action, state);
       });
-      abyssa.Router(router).init()
+      router.init();
     });
 
   }

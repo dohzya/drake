@@ -1,10 +1,15 @@
-define(['drake', 'el'], function (drake, el) {
+define(['drake', 'el', 'spin'], function (drake, el, Spinner) {
 
   var updateView = (function () {
     var root = document.querySelector('article');
     return function (dom) {
-      root.parentNode.replaceChild(dom, root);
-      root = dom;
+      var spinner = new Spinner();
+      spinner.spin(root);
+      setTimeout(function () {
+        spinner.stop();
+        root.parentNode.replaceChild(dom, root);
+        root = dom;
+      }, 500);
     }
   })();
 
