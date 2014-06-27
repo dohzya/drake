@@ -1,4 +1,4 @@
 [
   {"method": "GET", "pattern": "/", "target": { "controller": "Application", "action": "index" } },
-  {"method": "GET", "pattern": "/:id", "target": { "controller": "Application", "action": "show", "args": [ { "id": "Long" } ] } }
+  {"method": "GET", "pattern": "/:id", "target": { "controller": "Application", "action": "details", "args": [ { "id": "Long" } ] } }
 ]
