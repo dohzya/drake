@@ -29,12 +29,12 @@ define(['drake', 'el', 'spin', 'q'], function (drake, el, Spinner, Q) {
             )
           ));
         },
-        details: function (args) {
+        details: function (id) {
           updateView(el('article')(
             el('nav')(
-              el('a', { href: router.link('Application.index') })('/'), ' » ' + args.id
+              el('a', { href: router.link('Application.index') })('/'), ' » ' + id
             ),
-            el('p')(args.id)
+            el('p')(id)
           ));
         }
       }

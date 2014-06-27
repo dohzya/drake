@@ -68,7 +68,7 @@ package play.router {
                       "default" -> default
                     )
                   })
-                case None => JsNull
+                case None => Json.arr()
               })
             )
           }

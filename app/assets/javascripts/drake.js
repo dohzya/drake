@@ -12,9 +12,13 @@ define(['abyssa-with-deps', 'qajax'], function (abyssa, qajax) {
               if (typeof part === 'string') return acc + part;
               else return acc + ':' + part.name; // TODO handle regexp constraints
             }, prefix);
-            var state = abyssa.State(pattern, function () {
+            var state = abyssa.State(pattern, function (args) {
               if (!router.isFirstTransition()) {
-                targets[rule.call.controller][rule.call.method].apply(null, arguments)
+                // TODO handle query string parameters too
+                var effectiveParams = rule.call.parameters.map(function (parameter) {
+                  return args[parameter.name];
+                });
+                targets[rule.call.controller][rule.call.method].apply(null, effectiveParams);
               }
             });
             router.addState(rule.call.controller + '.' + rule.call.method, state);
