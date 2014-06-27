@@ -2,7 +2,7 @@ define(['abyssa-with-deps', 'qajax'], function (abyssa, qajax) {
 
   return function (targetsFactory) {
 
-    qajax.getJSON("/router").then(function (routes) {
+    qajax.getJSON("/router.json").then(function (routes) {
       var router = abyssa.Router();
       var targets = targetsFactory(router);
       var processRules = function (rules, prefix) {

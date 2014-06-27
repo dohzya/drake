@@ -1,5 +1,6 @@
-GET        /router              controllers.Drake.router
+GET        /router.json         controllers.Drake.router
 
 GET        /                    controllers.Application.index
 GET        /foo/:id/bar         controllers.Application.details(id: Long)
+
 GET        /assets/*file        controllers.Assets.at(path = "/public", file)
